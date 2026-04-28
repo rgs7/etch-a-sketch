@@ -30,6 +30,10 @@ h1 {
     padding: 4px 6px;
 }
 
+#color-mode {
+    padding: 4px 6px;
+}
+
 .container {
     width: 720px;
     height: 720px;
