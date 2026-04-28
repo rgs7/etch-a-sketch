@@ -4,7 +4,11 @@ const MAX_GRID_SIZE = 100;
 const grid = document.getElementById("grid");
 const sizeInput = document.getElementById("grid-size");
 const colorModeSelect = document.getElementById("color-mode");
+const dragDrawModeCheckbox = document.getElementById("drag-draw-mode");
 const setGridButton = document.getElementById("set-grid-size");
+const clearGridButton = document.getElementById("clear-grid");
+
+let isMouseDown = false;
 
 function normalizeGridSize(size) {
     return Math.min(Math.max(size, 1), MAX_GRID_SIZE);
@@ -21,8 +25,15 @@ function createGrid(size) {
         cell.classList.add("cell");
         cell.style.width = `${cellSize}px`;
         cell.style.height = `${cellSize}px`;
+        cell.addEventListener("mousedown", () => {
+            paintCell(cell);
+        });
         cell.addEventListener("mouseenter", () => {
-            cell.style.backgroundColor = getDrawColor();
+            if (dragDrawModeCheckbox.checked && !isMouseDown) {
+                return;
+            }
+
+            paintCell(cell);
         });
         grid.appendChild(cell);
     }
@@ -44,6 +55,17 @@ function getRandomRgbColor() {
     return `rgb(${red}, ${green}, ${blue})`;
 }
 
+function paintCell(cell) {
+    cell.style.backgroundColor = getDrawColor();
+}
+
+function clearGrid() {
+    const cells = grid.querySelectorAll(".cell");
+    for (const cell of cells) {
+        cell.style.backgroundColor = "";
+    }
+}
+
 setGridButton.addEventListener("click", () => {
     const requestedSize = Number.parseInt(sizeInput.value);
 
@@ -54,6 +76,22 @@ setGridButton.addEventListener("click", () => {
     const normalizedSize = normalizeGridSize(requestedSize);
     sizeInput.value = normalizedSize;
     createGrid(normalizedSize);
+});
+
+clearGridButton.addEventListener("click", () => {
+    clearGrid();
+});
+
+document.addEventListener("mousedown", () => {
+    isMouseDown = true;
+});
+
+document.addEventListener("mouseup", () => {
+    isMouseDown = false;
+});
+
+grid.addEventListener("dragstart", (event) => {
+    event.preventDefault();
 });
 
 createGrid(16);
