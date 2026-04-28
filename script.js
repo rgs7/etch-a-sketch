@@ -1,5 +1,6 @@
 const GRID_PIXELS = 720;
 const MAX_GRID_SIZE = 100;
+const MAX_SHADE_STEPS = 3;
 
 const grid = document.getElementById("grid");
 const sizeInput = document.getElementById("grid-size");
@@ -44,7 +45,7 @@ function getDrawColor() {
         return getRandomRgbColor();
     }
 
-    return "#000";
+    return "rgb(0, 0, 0)";
 }
 
 function getRandomRgbColor() {
@@ -56,14 +57,39 @@ function getRandomRgbColor() {
 }
 
 function paintCell(cell) {
-    cell.style.backgroundColor = getDrawColor();
+    const currentShadeLevel = Number.parseInt(cell.dataset.shadeLevel || "0");
+    const nextShadeLevel = Math.min(currentShadeLevel + 1, MAX_SHADE_STEPS);
+    const opacity = nextShadeLevel / MAX_SHADE_STEPS;
+
+    let baseColor = cell.dataset.baseColor;
+
+    if (!baseColor || currentShadeLevel === 0) {
+        baseColor = getDrawColor();
+        cell.dataset.baseColor = baseColor;
+    }
+
+    cell.dataset.shadeLevel = String(nextShadeLevel);
+    cell.style.backgroundColor = convertRgbToRgba(baseColor, opacity);
 }
 
 function clearGrid() {
     const cells = grid.querySelectorAll(".cell");
     for (const cell of cells) {
         cell.style.backgroundColor = "";
+        delete cell.dataset.shadeLevel;
+        delete cell.dataset.baseColor;
     }
+}
+
+function convertRgbToRgba(rgbColor, opacity) {
+    const rgbParts = rgbColor.match(/\d+/g);
+
+    if (!rgbParts || rgbParts.length < 3) {
+        return rgbColor;
+    }
+
+    const [red, green, blue] = rgbParts;
+    return `rgba(${red}, ${green}, ${blue}, ${opacity})`;
 }
 
 setGridButton.addEventListener("click", () => {
