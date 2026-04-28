@@ -36,4 +36,4 @@ A browser-based Etch-a-Sketch built with vanilla HTML, CSS, and JavaScript.
 
 No build step or dependencies required.
 
-🌐 Live site: [rgs7.github.io/etch-a-sketch](https://rgs7.github.io/etch-a-sketch/)
+🌐 Live site: [Etch-a-Sketch](https://rgs7.github.io/etch-a-sketch/)
