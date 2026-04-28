@@ -7,23 +7,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Etch-a-Sketch</h1>
-    <div class="controls">
-        <label for="grid-size">Grid size</label>
-        <input id="grid-size" type="number" min="1" max="100" value="16">
-        <label for="color-mode">Color mode</label>
-        <select id="color-mode">
-            <option value="black">Black</option>
-            <option value="rainbow">Rainbow</option>
-        </select>
-        <label for="drag-draw-mode">
-            <input id="drag-draw-mode" type="checkbox">
-            Draw on drag
-        </label>
-        <button id="set-grid-size">Set</button>
-        <button id="clear-grid" type="button">Clear</button>
-    </div>
-    <div id="grid" class="container">
+    <div class="app">
+        <aside class="controls-panel">
+            <h1>Etch-a-Sketch</h1>
+            <p class="subtitle">Sketch with your mouse and tweak the setup.</p>
+
+            <div class="controls">
+                <label for="grid-size">Grid size</label>
+                <input id="grid-size" type="number" min="1" max="100" value="16">
+
+                <label for="color-mode">Color mode</label>
+                <select id="color-mode">
+                    <option value="black">Black</option>
+                    <option value="rainbow">Rainbow</option>
+                </select>
+
+                <label class="toggle" for="drag-draw-mode">
+                    <input id="drag-draw-mode" type="checkbox">
+                    Draw on drag
+                </label>
+
+                <div class="actions">
+                    <button id="set-grid-size" type="button">Apply grid</button>
+                    <button id="clear-grid" type="button">Clear board</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="board">
+            <div id="grid" class="container"></div>
+        </main>
     </div>
     <script src="script.js"></script>
 </body>
